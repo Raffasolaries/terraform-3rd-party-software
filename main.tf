@@ -1,3 +1,3 @@
 locals {
- develop_availability_zones = var.availability_zones
+ production_availability_zones = var.availability_zones
 }

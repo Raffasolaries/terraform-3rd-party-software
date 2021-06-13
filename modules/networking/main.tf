@@ -93,6 +93,33 @@ resource "aws_route_table_association" "private" {
   subnet_id      = element(aws_subnet.private_subnet.*.id, count.index)
   route_table_id = aws_route_table.private.id
 }
+/* Gateway endpoints creation and association */
+resource "aws_vpc_endpoint" "s3" {
+  vpc_id       = aws_vpc.vpc.id
+  service_name = "com.amazonaws.${var.region}.s3"
+
+  tags = {
+   Name = "${var.environment}-s3-vpc-endpoint"
+   Environment = var.environment
+  }
+}
+resource "aws_vpc_endpoint" "dynamodb" {
+  vpc_id       = aws_vpc.vpc.id
+  service_name = "com.amazonaws.${var.region}.dynamodb"
+
+  tags = {
+   Name = "${var.environment}-dynamodb-vpc-endpoint"
+   Environment = var.environment
+  }
+}
+resource "aws_vpc_endpoint_route_table_association" "s3" {
+  route_table_id  = aws_route_table.private.id
+  vpc_endpoint_id = aws_vpc_endpoint.s3.id
+}
+resource "aws_vpc_endpoint_route_table_association" "dynamodb" {
+  route_table_id  = aws_route_table.private.id
+  vpc_endpoint_id = aws_vpc_endpoint.dynamodb.id
+}
 /*==== VPC's Default Security Group ======*/
 resource "aws_security_group" "default" {
   name        = "${var.environment}-default-sg"
@@ -103,7 +130,7 @@ resource "aws_security_group" "default" {
     from_port = "0"
     to_port   = "0"
     protocol  = "-1"
-    self      = true
+    self      = "true"
   }
   
   egress {
@@ -113,7 +140,8 @@ resource "aws_security_group" "default" {
     self      = "true"
   }
   tags = {
-    Environment = var.environment
+   Name = "${var.environment}-default-sg"
+   Environment = var.environment
   }
 }
 
