@@ -12,7 +12,7 @@ resource "aws_lb" "nlb" {
   Environment = var.environment
  }
 }
-/* Target group
+/* Target group */
 resource "aws_lb_target_group" "instance" {
  name        = "${var.environment}-${var.app_name}-tg"
  port        = 80
@@ -77,6 +77,6 @@ resource "aws_lb_listener" "https" {
 
  default_action {
    type             = "forward"
-   target_group_arn = aws_lb_target_group.front_end.arn
+   target_group_arn = aws_lb_target_group.instance.arn
  }
 }
