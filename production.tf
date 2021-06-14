@@ -14,7 +14,7 @@ module "load_balancing" {
  app_name             = var.app_name
  certificate_arn      = var.certificate_arn
  vpc_id               = module.networking.vpc_id
- public_subnets       = module.networking.public_subnets_ids
+ public_subnets_ids   = module.networking.public_subnets_ids
  instance_id          = module.instance.instance_id
 }
 
