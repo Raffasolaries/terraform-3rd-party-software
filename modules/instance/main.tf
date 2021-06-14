@@ -37,7 +37,7 @@ resource "aws_security_group" "allow-ssh" {
  }
 }
 /* Instance security group */
-resource "aws_security_group" "allow-tpc-ssh" {
+resource "aws_security_group" "allow-tcp-ssh" {
  vpc_id       = var.vpc_id
  name         = "TCP-SSH"
  description  = "security group that allows tcp + ssh and all egress traffic"
@@ -73,7 +73,7 @@ resource "aws_instance" "bastion_instance" {
 
  vpc_security_group_ids = [aws_security_group.allow-ssh.id]
 
- key_name = aws_key_pair.mykeypair.key_name
+ key_name = aws_key_pair.keypair.key_name
 
  tags = {
   Name = "bastion-instance"

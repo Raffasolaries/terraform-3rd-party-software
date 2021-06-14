@@ -4,12 +4,12 @@ variable "environment" {
 }
 
 variable "public_subnets_cidr" {
- type = list(string)
+ type = list
  description = "cidr blocks for public subnets"
 }
 
 variable "private_subnets_cidr" {
- type = list(string)
+ type = list
  description = "cidr blocks for private subnets"
 }
 
