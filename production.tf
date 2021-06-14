@@ -21,6 +21,7 @@ module "load_balancing" {
 module "instance" {
  source =             "./modules/instance"
  environment          = var.environment
+ // ami_id               = var.ami_id
  app_name             = var.app_name
  instance_type        = var.instance_type
  vpc_id               = module.networking.vpc_id
