@@ -1,5 +1,5 @@
 variable "region" {
- description = "AWS Deployment region"
+ description = "AWS deployment region"
  type = string
  default = "eu-central-1"
 }
@@ -36,6 +36,16 @@ variable "availability_zones" {
 
 variable "app_name" {
  description = "Application name"
+ type = string
+}
+
+variable "vpc_id" {
+ description = "The ID of the VPC"
+ type = string
+}
+
+variable "subnet_id" {
+ description = "The ID of the subnet"
  type = string
 }
 

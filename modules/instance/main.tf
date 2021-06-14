@@ -15,7 +15,7 @@ data "aws_ami" "amazon-linux-2" {
 }
 /* Bastion security group */
 resource "aws_security_group" "allow-ssh" {
- vpc_id       = module.networking.vpc_id
+ vpc_id       = var.vpc_id
  name         = "allow-ssh"
  description  = "security group that allows ssh and all egress traffic"
  egress {
@@ -38,7 +38,7 @@ resource "aws_security_group" "allow-ssh" {
 }
 /* Instance security group */
 resource "aws_security_group" "allow-tpc-ssh" {
- vpc_id       = module.networking.vpc_id
+ vpc_id       = var.vpc_id
  name         = "TCP-SSH"
  description  = "security group that allows tcp + ssh and all egress traffic"
  egress {
@@ -69,7 +69,7 @@ resource "aws_instance" "bastion_instance" {
  ami                    = data.aws_ami.amazon-linux-2.id
  instance_type          = "t3.micro"
 
- subnet_id = element(module.networking.public_subnets_ids, 1)
+ subnet_id = var.subnet_id
 
  vpc_security_group_ids = [aws_security_group.allow-ssh.id]
 
@@ -85,7 +85,7 @@ resource "aws_instance" "private_instance" {
  ami                    = data.aws_ami.amazon-linux-2.id
  instance_type          = var.instance_type
 
- subnet_id              = element(module.networking.private_subnets_ids, 1)
+ subnet_id              = var.subnet_id
 
  vpc_security_group_ids = [aws_security_group.allow-tcp-ssh.id]
 

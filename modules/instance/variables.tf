@@ -18,6 +18,16 @@ variable "app_name" {
  type = string
 }
 
+variable "vpc_id" {
+ description = "The ID of the VPC"
+ type = string
+}
+
+variable "subnet_id" {
+ description = "The ID of the subnet"
+ type = string
+}
+
 variable "instance_type" {
  description = "Instance type"
  type = string

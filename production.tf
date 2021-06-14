@@ -20,6 +20,8 @@ module "instance" {
  environment          = var.environment
  app_name             = var.app_name
  instance_type        = var.instance_type
+ vpc_id               = module.networking.vpc_id
+ subnet_id            = element(module.networking.public_subnets_ids, 1)
  public_subnets_cidr  = var.public_subnets_cidr
  private_subnets_cidr = var.private_subnets_cidr
  key_path             = var.key_path
