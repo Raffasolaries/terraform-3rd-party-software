@@ -20,7 +20,7 @@ variable "vpc_id" {
 
 variable "public_subnets_ids" {
  description = "Public subnets IDs"
- type = string
+ type = list
 }
 
 variable "instance_id" {
