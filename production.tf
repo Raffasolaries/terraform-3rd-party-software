@@ -9,10 +9,10 @@ module "networking" {
 }
 
 module "load_balancing" {
- source       = "./modules/load_balancing"
- environment  = var.environment
- app_name     = var.app_name
- certificate_arn = var.certificate_arn
+ source               = "./modules/load_balancing"
+ environment          = var.environment
+ app_name             = var.app_name
+ certificate_arn      = var.certificate_arn
 }
 
 module "instance" {
