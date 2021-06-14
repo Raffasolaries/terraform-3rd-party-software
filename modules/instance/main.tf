@@ -1,18 +1,18 @@
 /* AMI */
-data "aws_ami" "amazon-linux-2" {
- most_recent = true
- owners  = ["self"]
+// data "aws_ami" "amazon-linux-2" {
+//  most_recent = true
+//  owners  = ["self"]
 
- filter {
-  name   = "owner-alias"
-  values = ["amazon"]
- }
+//  filter {
+//   name   = "owner-alias"
+//   values = ["amazon"]
+//  }
 
- filter {
-  name   = "name"
-  values = ["amzn2-ami-hvm*"]
- }
-}
+//  filter {
+//   name   = "name"
+//   values = ["amzn2-ami-hvm*"]
+//  }
+// }
 /* Bastion security group */
 resource "aws_security_group" "allow-ssh" {
  vpc_id       = var.vpc_id
@@ -66,7 +66,7 @@ resource "aws_security_group" "allow-tcp-ssh" {
 }
 /* Bastion instance */
 resource "aws_instance" "bastion_instance" {
- ami                    = data.aws_ami.amazon-linux-2.id
+ ami                    = var.ami_id
  instance_type          = "t3.micro"
 
  subnet_id = var.subnet_id
@@ -82,7 +82,7 @@ resource "aws_instance" "bastion_instance" {
 }
 /* Instance */
 resource "aws_instance" "private_instance" {
- ami                    = data.aws_ami.amazon-linux-2.id
+ ami                    = var.ami_id
  instance_type          = var.instance_type
 
  subnet_id              = var.subnet_id

@@ -18,6 +18,11 @@ variable "app_name" {
  type = string
 }
 
+variable "ami_id" {
+ description = "The AMI ID"
+ type = string
+}
+
 variable "vpc_id" {
  description = "The ID of the VPC"
  type = string

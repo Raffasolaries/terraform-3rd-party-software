@@ -39,6 +39,11 @@ variable "app_name" {
  type = string
 }
 
+variable "ami_id" {
+ description = "The AMI ID"
+ type = string
+}
+
 variable "instance_type" {
  description = "Instance type"
  type = string
