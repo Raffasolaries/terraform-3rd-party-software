@@ -3,7 +3,7 @@ resource "aws_lb" "nlb" {
  name               = "${var.environment}-nlb"
  internal           = false
  load_balancer_type = "network"
- subnets            = module.networking.public_subnets_ids
+ subnets            = var.public_subnets_ids
 
  enable_deletion_protection = true
 
@@ -18,7 +18,7 @@ resource "aws_lb_target_group" "instance" {
  port        = 80
  protocol    = "HTTP"
  target_type = "instance"
- vpc_id      = module.networking.vpc_id
+ vpc_id      = var.vpc_id
 
  health_check {
   matcher = "200-299"
@@ -38,7 +38,7 @@ resource "aws_lb_target_group" "instance" {
 /* Target group attachment */
 resource "aws_lb_target_group_attachment" "instance_attachment" {
  target_group_arn = aws_lb_target_group.instance.arn
- target_id        = module.instance.instance_id
+ target_id        = var.instance_id
 }
 // /* Main listener */
 // resource "aws_lb_listener" "https" {

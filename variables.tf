@@ -39,15 +39,15 @@ variable "app_name" {
  type = string
 }
 
-variable "vpc_id" {
- description = "The ID of the VPC"
- type = string
-}
+// variable "vpc_id" {
+//  description = "The ID of the VPC"
+//  type = string
+// }
 
-variable "subnet_id" {
- description = "The ID of the subnet"
- type = string
-}
+// variable "subnet_id" {
+//  description = "The ID of the subnet"
+//  type = string
+// }
 
 variable "instance_type" {
  description = "Instance type"
@@ -68,6 +68,16 @@ variable "certificate_arn" {
  description = "TLS certificate"
  type = string
 }
+
+// variable "public_subnets" {
+//  description = "Public subnets IDs"
+//  type = string
+// }
+
+// variable "instance_id" {
+//  description = "Instance ID"
+//  type = string
+// }
 
 variable "key_path" {
  description = "Path where ssh keys are located"
