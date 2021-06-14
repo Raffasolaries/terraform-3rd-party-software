@@ -12,6 +12,7 @@ module "load_balancing" {
  source       = "./modules/load_balancing"
  environment  = var.environment
  app_name     = var.app_name
+ certificate_arn = var.certificate_arn
 }
 
 module "instance" {
@@ -22,4 +23,6 @@ module "instance" {
  public_subnets_cidr  = var.public_subnets_cidr
  private_subnets_cidr = var.private_subnets_cidr
  key_path             = var.key_path
+ volume_type          = var.volume_type
+ volume_size          = var.volume_size
 }

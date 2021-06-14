@@ -44,6 +44,16 @@ variable "instance_type" {
  type = string
 }
 
+variable "volume_type" {
+ description = "Type of volume. Valid values include standard, gp2, gp3, io1, io2, sc1, or st1. Defaults to gp2"
+ type = string
+}
+
+variable "volume_size" {
+ description = "Size of the volume in gibibytes (GiB)"
+ type = number
+}
+
 variable "certificate_arn" {
  description = "TLS certificate"
  type = string

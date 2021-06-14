@@ -1,6 +1,7 @@
 /* AMI */
 data "aws_ami" "amazon-linux-2" {
  most_recent = true
+ owners  = ["amazon"]
 
  filter {
   name   = "owner-alias"
@@ -66,7 +67,7 @@ resource "aws_security_group" "allow-tpc-ssh" {
 /* Bastion instance */
 resource "aws_instance" "bastion_instance" {
  ami                    = data.aws_ami.amazon-linux-2.id
- instance_type          = var.instance_type
+ instance_type          = "t3.micro"
 
  subnet_id = element(module.networking.public_subnets_ids, 1)
 
@@ -89,6 +90,18 @@ resource "aws_instance" "private_instance" {
  vpc_security_group_ids = [aws_security_group.allow-tcp-ssh.id]
 
  key_name               = aws_key_pair.keypair.key_name
+
+ root_block_device {
+  delete_on_termination = false
+  encrypted = true
+  volume_type = var.volume_type
+  volume_size = var.volume_size
+
+  tags = {
+   Name = "${var.environment}-${var.app_name}-ebs"
+   Environment = var.environment
+  }
+ }
  
  tags = {
   Name = "${var.environment}-${var.app_name}-instance"
