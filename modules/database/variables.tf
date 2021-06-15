@@ -20,9 +20,24 @@ variable "app_name" {
  type = string
 }
 
+variable "vpc_id" {
+ description = "The ID of the VPC"
+ type = string
+}
+
 variable "availability_zones" {
  type = list
  description = "(Only relational_db == true) list all the used availability zones"
+}
+
+variable "private_subnet_ids" {
+ type = list
+ description = "(Only relational_db == true) list of subnets ids where the RDS instances should be running"
+}
+
+variable "instance_security_group_id" {
+ type = string
+ description = "(Only relational_db == true) Application instance security group id"
 }
 
 variable "db_backup_retention_period" {
