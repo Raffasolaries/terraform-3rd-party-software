@@ -19,8 +19,12 @@ resource "aws_internet_gateway" "ig" {
 }
 /* Elastic IP for NAT */
 resource "aws_eip" "nat_eip" {
-  vpc        = true
-  depends_on = [aws_internet_gateway.ig]
+ vpc        = true
+ depends_on = [aws_internet_gateway.ig]
+ tags = {
+  Name = "${var.environment}-${var.app_name}-eip"
+  Environment = var.environment
+ }
 }
 /* NAT */
 resource "aws_nat_gateway" "nat" {
@@ -28,7 +32,7 @@ resource "aws_nat_gateway" "nat" {
   subnet_id     = element(aws_subnet.public_subnet.*.id, 0)
   depends_on    = [aws_internet_gateway.ig]
   tags = {
-    Name        = "nat"
+    Name        = "${var.environment}-${var.app_name}-nat"
     Environment = var.environment
   }
 }
@@ -58,40 +62,40 @@ resource "aws_subnet" "private_subnet" {
 }
 /* Routing table for private subnet */
 resource "aws_route_table" "private" {
-  vpc_id = aws_vpc.vpc.id
-  tags = {
-    Name        = "${var.environment}-private-route-table"
-    Environment = var.environment
-  }
+ vpc_id = aws_vpc.vpc.id
+ tags = {
+  Name        = "${var.environment}-${var.app_name}-private-route-table"
+  Environment = var.environment
+ }
 }
 /* Routing table for public subnet */
 resource "aws_route_table" "public" {
-  vpc_id = aws_vpc.vpc.id
-  tags = {
-    Name        = "${var.environment}-public-route-table"
-    Environment = var.environment
-  }
+ vpc_id = aws_vpc.vpc.id
+ tags = {
+  Name        = "${var.environment}-${var.app_name}-public-route-table"
+  Environment = var.environment
+ }
 }
 resource "aws_route" "public_internet_gateway" {
-  route_table_id         = aws_route_table.public.id
-  destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_internet_gateway.ig.id
+ route_table_id         = aws_route_table.public.id
+ destination_cidr_block = "0.0.0.0/0"
+ gateway_id             = aws_internet_gateway.ig.id
 }
 resource "aws_route" "private_nat_gateway" {
-  route_table_id         = aws_route_table.private.id
-  destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = aws_nat_gateway.nat.id
+ route_table_id         = aws_route_table.private.id
+ destination_cidr_block = "0.0.0.0/0"
+ nat_gateway_id         = aws_nat_gateway.nat.id
 }
 /* Route table associations */
 resource "aws_route_table_association" "public" {
-  count          = length(var.public_subnets_cidr)
-  subnet_id      = element(aws_subnet.public_subnet.*.id, count.index)
-  route_table_id = aws_route_table.public.id
+ count          = length(var.public_subnets_cidr)
+ subnet_id      = element(aws_subnet.public_subnet.*.id, count.index)
+ route_table_id = aws_route_table.public.id
 }
 resource "aws_route_table_association" "private" {
-  count          = length(var.private_subnets_cidr)
-  subnet_id      = element(aws_subnet.private_subnet.*.id, count.index)
-  route_table_id = aws_route_table.private.id
+ count          = length(var.private_subnets_cidr)
+ subnet_id      = element(aws_subnet.private_subnet.*.id, count.index)
+ route_table_id = aws_route_table.private.id
 }
 /* Gateway endpoints creation and association */
 resource "aws_vpc_endpoint" "s3" {
@@ -99,7 +103,7 @@ resource "aws_vpc_endpoint" "s3" {
   service_name = "com.amazonaws.${var.region}.s3"
 
   tags = {
-   Name = "${var.environment}-s3-vpc-endpoint"
+   Name = "${var.environment}-${var.app_name}-s3-vpc-endpoint"
    Environment = var.environment
   }
 }
@@ -108,21 +112,21 @@ resource "aws_vpc_endpoint" "dynamodb" {
   service_name = "com.amazonaws.${var.region}.dynamodb"
 
   tags = {
-   Name = "${var.environment}-dynamodb-vpc-endpoint"
+   Name = "${var.environment}-${var.app_name}-dynamodb-vpc-endpoint"
    Environment = var.environment
   }
 }
 resource "aws_vpc_endpoint_route_table_association" "s3" {
-  route_table_id  = aws_route_table.private.id
-  vpc_endpoint_id = aws_vpc_endpoint.s3.id
+ route_table_id  = aws_route_table.private.id
+ vpc_endpoint_id = aws_vpc_endpoint.s3.id
 }
 resource "aws_vpc_endpoint_route_table_association" "dynamodb" {
-  route_table_id  = aws_route_table.private.id
-  vpc_endpoint_id = aws_vpc_endpoint.dynamodb.id
+ route_table_id  = aws_route_table.private.id
+ vpc_endpoint_id = aws_vpc_endpoint.dynamodb.id
 }
 /*==== VPC's Default Security Group ======*/
 resource "aws_security_group" "default" {
-  name        = "${var.environment}-default-sg"
+  name        = "${var.environment}-${var.app_name}-default-sg"
   description = "Default security group to allow inbound/outbound from the VPC"
   vpc_id      = aws_vpc.vpc.id
   depends_on  = [aws_vpc.vpc]
@@ -140,7 +144,7 @@ resource "aws_security_group" "default" {
     self      = "true"
   }
   tags = {
-   Name = "${var.environment}-default-sg"
+   Name = "${var.environment}-${var.app_name}-default-sg"
    Environment = var.environment
   }
 }

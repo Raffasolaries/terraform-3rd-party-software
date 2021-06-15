@@ -8,6 +8,11 @@ variable "environment" {
  description = "Referral environment"
 }
 
+variable "app_name" {
+ description = "Application name"
+ type = string
+}
+
 variable "vpc_cidr" {
  type = string
  description = "CIDR VPC block"

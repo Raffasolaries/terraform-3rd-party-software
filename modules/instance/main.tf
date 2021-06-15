@@ -112,4 +112,8 @@ resource "aws_instance" "private_instance" {
 resource "aws_key_pair" "keypair" {
  key_name     = "${var.environment}-${var.app_name}-key-pair"
  public_key   = file(var.key_path)
+ tags = {
+  Name = "${var.environment}-${var.app_name}-key-pair"
+  Environment = var.environment
+ }
 }
