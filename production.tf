@@ -15,23 +15,8 @@ module "load_balancing" {
  app_name             = var.app_name
  certificate_arn      = var.certificate_arn
  vpc_id               = module.networking.vpc_id
- public_subnet_ids   = module.networking.public_subnet_ids
+ public_subnet_ids    = module.networking.public_subnet_ids
  instance_id          = module.instance.instance_id
-}
-
-module "instance" {
- source =             "./modules/instance"
- environment          = var.environment
- ami_id               = var.ami_id
- app_name             = var.app_name
- instance_type        = var.instance_type
- vpc_id               = module.networking.vpc_id
- subnet_id            = element(module.networking.public_subnet_ids, 1)
- public_subnets_cidr  = var.public_subnets_cidr
- private_subnets_cidr = var.private_subnets_cidr
- key_path             = var.key_path
- volume_type          = var.volume_type
- volume_size          = var.volume_size
 }
 
 module "database" {
@@ -50,3 +35,19 @@ module "database" {
  db_hash_key                 = var.db_hash_key
  db_range_key                = var.db_range_key
 }
+
+module "instance" {
+ source               = "./modules/instance"
+ environment          = var.environment
+ ami_id               = var.ami_id
+ app_name             = var.app_name
+ instance_type        = var.instance_type
+ vpc_id               = module.networking.vpc_id
+ subnet_id            = element(module.networking.public_subnet_ids, 1)
+ public_subnets_cidr  = var.public_subnets_cidr
+ private_subnets_cidr = var.private_subnets_cidr
+ key_path             = var.key_path
+ volume_type          = var.volume_type
+ volume_size          = var.volume_size
+}
+
