@@ -30,7 +30,7 @@ No modules.
 | <a name="input_certificate_arn"></a> [certificate\_arn](#input\_certificate\_arn) | TLS certificate | `string` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | Referral environment | `string` | n/a | yes |
 | <a name="input_instance_id"></a> [instance\_id](#input\_instance\_id) | Instance ID | `string` | n/a | yes |
-| <a name="input_public_subnets_ids"></a> [public\_subnets\_ids](#input\_public\_subnets\_ids) | Public subnets IDs | `list` | n/a | yes |
+| <a name="input_public_subnet_ids"></a> [public\_subnet\_ids](#input\_public\_subnet\_ids) | Public subnets IDs | `list` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The ID of the VPC | `string` | n/a | yes |
 
 ## Outputs
