@@ -77,7 +77,7 @@ variable "relational_db" {
 
 variable "db_type" {
  description = "(Only relational_db == true) Database type could be <mysql> or <postgresql>"
- type = bool
+ type = string
  default = "postgresql"
 }
 
@@ -92,14 +92,13 @@ variable "db_backup_window" {
  type = string
 }
 
-variable "db_master_username" {
- description = "(Only relational_db == true) Username for the master DB user"
- type = string
-}
-
-variable "db_master_password" {
- description = "(Only relational_db == true) Username for the master DB user"
- type = string
+variable "db_credentials" {
+ description = "(Only relational_db == true) RDS Aurora master_username & master_password"
+ type = object({
+  master_username = string
+  master_password = string
+ })
+ sensitive = true
 }
 
 variable "db_hash_key" {

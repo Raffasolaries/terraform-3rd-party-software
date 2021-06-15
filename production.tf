@@ -46,8 +46,7 @@ module "database" {
  availability_zones          = local.production_availability_zones
  db_backup_retention_period  = var.db_backup_retention_period
  db_backup_window            = var.db_backup_window
- db_master_username          = var.db_master_username
- db_master_password          = var.db_master_password
+ db_credentials              = var.db_credentials
  db_hash_key                 = var.db_hash_key
  db_range_key                = var.db_range_key
 }

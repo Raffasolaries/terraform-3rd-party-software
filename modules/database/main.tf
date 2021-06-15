@@ -58,17 +58,10 @@ resource "aws_secretsmanager_secret" "rds" {
   Environment = var.environment
  }
 }
-variable "credentials" {
- default = {
-   master_username = var.db_master_username
-   master_password = var.db_master_password
- }
- type = map(string)
-}
 resource "aws_secretsmanager_secret_version" "rds" {
  count                   = var.relational_db == true ? 1 : 0
  secret_id               = aws_secretsmanager_secret.rds.id
- secret_string           = jsonencode(var.credentials)
+ secret_string           = jsonencode(var.db_credentials)
  tags = {
   Name = "${var.environment}-${var.app_name}-aurora-secrets-version"
   Environment = var.environment
