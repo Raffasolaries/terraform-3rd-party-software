@@ -30,8 +30,8 @@ resource "aws_rds_cluster" "aurora" {
  engine_mode             = "serverless"
  availability_zones      = var.availability_zones
  database_name           = "${var.environment}-${var.app_name}-rds"
- master_username         = var.db_master_username
- master_password         = var.db_master_password
+ master_username         = var.db_credentials.master_username
+ master_password         = var.db_credentials.master_password
  backup_retention_period = var.db_backup_retention_period
  preferred_backup_window = var.db_backup_window
  vpc_security_group_ids  = [aws_db_security_group.rds_sg.id]
