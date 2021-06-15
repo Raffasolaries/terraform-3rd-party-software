@@ -2,7 +2,7 @@
 /* Subnets */
 resource "aws_db_subnet_group" "rds_private_subnet" {
  count = var.relational_db == true ? 1 : 0 
- name = "${var.environment}_${var.app_name}_rds_private_subnet_group"
+ name = "${var.environment}-${var.app_name}-rds-private-subnet-group"
  subnet_ids = var.private_subnet_ids
  tags = {
   Name = "${var.environment}-${var.app_name}-rds-private-subnet-group"
