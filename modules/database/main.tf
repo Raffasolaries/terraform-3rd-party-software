@@ -61,10 +61,6 @@ resource "aws_secretsmanager_secret_version" "rds" {
  count                   = var.relational_db == true ? 1 : 0
  secret_id               = aws_secretsmanager_secret.rds[0].id
  secret_string           = jsonencode(var.db_credentials)
- tags = {
-  Name = "${var.environment}-${var.app_name}-aurora-secrets-version"
-  Environment = var.environment
- }
 }
 /* Alternative DynamoDB database */
 resource "aws_dynamodb_table" "db" {
