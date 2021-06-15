@@ -3,7 +3,7 @@ resource "aws_lb" "nlb" {
  name               = "${var.environment}-nlb"
  internal           = false
  load_balancer_type = "network"
- subnets            = var.public_subnets_ids
+ subnets            = var.public_subnet_ids
 
  enable_deletion_protection = true
 
