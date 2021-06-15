@@ -44,3 +44,27 @@ No modules.
 |------|-------------|
 | <a name="output_instance_id"></a> [instance\_id](#output\_instance\_id) | n/a |
 | <a name="output_instance_security_group_id"></a> [instance\_security\_group\_id](#output\_instance\_security\_group\_id) | n/a |
+
+## SSH Instructions
+```bash
+# Generate SSH keys
+ssh-keygen -k mykeypair
+# Add the keys to your keychain
+ssh-add -K mykeypair
+# Connect to the bastion host:
+ssh -A <bastion-ip-address>
+```
+## Change the .ssh/config file
+```bash
+Host bastion-instance
+ HostName <Bastion Public IP>
+ User ec2-user
+Host private-instance
+ HostName <Private IP>
+ User ec2-user
+ ProxyCommand ssh -q -W %h:%p bastion-instance
+```
+## Eventually connect ...
+```bash
+ssh private-instance
+```
