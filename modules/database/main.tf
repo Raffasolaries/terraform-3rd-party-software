@@ -52,7 +52,6 @@ resource "aws_rds_cluster" "aurora" {
 resource "aws_secretsmanager_secret" "rds" {
  count                     = var.relational_db == true ? 1 : 0
  name                      = "${var.environment}-${var.app_name}-aurora-secrets"
- automatically_after_days  = 15
  tags = {
   Name = "${var.environment}-${var.app_name}-aurora-secrets"
   Environment = var.environment
